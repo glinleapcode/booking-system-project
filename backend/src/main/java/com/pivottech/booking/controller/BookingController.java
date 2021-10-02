@@ -23,6 +23,13 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+
+    @GetMapping("/all")
+    public List<Reservation> getAllReservations(){
+        return bookingService.getAllReservations();
+    }
+
+
     @GetMapping("/")
     public List<Reservation> list(
             @RequestParam(name = "limit", required = false) int limit,
@@ -31,6 +38,16 @@ public class BookingController {
         Pageable pageable = PageRequest.ofSize(limit > 0 ? limit : DEFAULT_PAGE_SIZE);
         return bookingService.getReservations(pageable, searchTerms);
     }
+
+/*
+    @GetMapping("/")
+    public List<Reservation> list(
+            @RequestParam(name = "teacherName", required = false) String teacherName
+    ) {
+
+        return bookingService.getReservationsByTeacher(teacherName);
+    }
+*/
 
     @GetMapping("/{id}")
     public Reservation getById(@PathVariable("id") long id) {

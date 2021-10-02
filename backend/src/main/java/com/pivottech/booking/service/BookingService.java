@@ -19,6 +19,11 @@ public class BookingService {
         this.reservations = reservations;
     }
 
+
+    public List<Reservation> getAllReservations() {
+        return (List<Reservation>) reservations.findAll();
+    }
+
     public Reservation createReservation(Reservation reservation) {
         Reservation saved = this.reservations.save(reservation);
         return saved;
@@ -33,12 +38,21 @@ public class BookingService {
         return true;
     }
 
+
+
     public List<Reservation> getReservations(Pageable pageable, String terms) {
         Page<Reservation> page = StringUtils.isBlank(terms) ?
                 this.reservations.findAll(pageable) :
                 this.reservations.findByDescriptionContaining(terms, pageable);
         return page.toList();
     }
+
+/*    public List<Reservation> getReservationsByTeacher(String teacherName) {
+        Page<Reservation> page = StringUtils.isBlank(teacherName) ?
+                (Page<Reservation>) this.reservations.findAll() :
+                 this.reservations.findByTeacher(teacherName);
+        return page.toList();
+    }*/
 
     public Reservation getReservationById(Long id) {
         Optional<Reservation> resv = reservations.findById(id);
